@@ -15,20 +15,9 @@ const sans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Aura & Angle | Architectural Lighting Curation & Styling Studio",
-  description: "Explore clean lighting geometry, Japandi fixtures, and custom placement guides. Aura & Angle bridges modern room volume with elegant, layered illumination.",
+  title: "Aura & Angle | Architectural Lighting Showcase",
+  description: "Explore the Zenith Pendant - a hand-loomed organic oatmeal linen drum light designed to balance spatial volume and soft illumination.",
   metadataBase: new URL("https://aura-and-angle.vercel.app"),
-  openGraph: {
-    title: "Aura & Angle | Architectural Lighting Curation",
-    description: "Modern room volume meets elegant, layered illumination.",
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Aura & Angle | Architectural Lighting Curation",
-    description: "Modern room volume meets elegant, layered illumination.",
-  }
 };
 
 export default function RootLayout({
