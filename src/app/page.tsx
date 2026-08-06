@@ -4,137 +4,8 @@ import { useState } from "react";
 import FTCDisclosure from "@/components/FTCDisclosure";
 import AffiliateButton from "@/components/AffiliateButton";
 import LumenCalculator from "@/components/LumenCalculator";
-import { AffiliateSlug } from "@/lib/affiliates";
-
-interface Product {
-  id: string;
-  name: string;
-  category: "pendants" | "sconces" | "lamps" | "flush";
-  slug: AffiliateSlug;
-  price: string;
-  specs: string;
-  description: string;
-  svgIcon: React.ReactNode;
-}
-
-const PRODUCTS: Product[] = [
-  {
-    id: "p1",
-    name: "Zenith Oatmeal Linen Pendant",
-    category: "pendants",
-    slug: "pendant",
-    price: "$390",
-    specs: "32\" Diameter • Dimmable LED",
-    description: "An organic drum shade covered in hand-loomed Belgian linen. Creates a quiet, diffused ambient volume ideal for centering dining rooms.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <line x1="50" y1="10" x2="50" y2="35" strokeWidth="1.5" />
-        <rect x="20" y="35" width="60" height="28" fill="currentColor" opacity="0.05" rx="2" />
-        <rect x="20" y="35" width="60" height="28" strokeWidth="1.5" rx="2" />
-        <line x1="20" y1="42" x2="80" y2="42" strokeWidth="0.5" strokeDasharray="2 2" />
-        <line x1="20" y1="49" x2="80" y2="49" strokeWidth="0.5" strokeDasharray="2 2" />
-        <line x1="20" y1="56" x2="80" y2="56" strokeWidth="0.5" strokeDasharray="2 2" />
-      </svg>
-    )
-  },
-  {
-    id: "p2",
-    name: "Kino Alabaster Wall Sconce",
-    category: "sconces",
-    slug: "sconces",
-    price: "$240",
-    specs: "4.5\" W x 14\" H • Dual Wash",
-    description: "Chiselled blocks of natural Spanish alabaster stone. Directs bidirectional light washes upward and downward to highlight room texture.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <rect x="42" y="25" width="16" height="50" rx="1" fill="currentColor" opacity="0.05" />
-        <rect x="42" y="25" width="16" height="50" rx="1" strokeWidth="1.5" />
-        <line x1="42" y1="35" x2="58" y2="35" strokeWidth="0.75" />
-        <line x1="42" y1="45" x2="58" y2="45" strokeWidth="0.75" />
-        <line x1="42" y1="55" x2="58" y2="55" strokeWidth="0.75" />
-        <line x1="42" y1="65" x2="58" y2="65" strokeWidth="0.75" />
-        <path d="M42 25 L 20 5 L 80 5 L 58 25 Z" fill="currentColor" opacity="0.03" />
-        <path d="M42 75 L 20 95 L 80 95 L 58 75 Z" fill="currentColor" opacity="0.03" />
-      </svg>
-    )
-  },
-  {
-    id: "p3",
-    name: "Akari Washi Lantern Lamp",
-    category: "lamps",
-    slug: "table",
-    price: "$180",
-    specs: "12\" H • Frosted E26 Socket",
-    description: "Inspired by traditional Japanese paper lanterns. The hand-structured mulberry paper shade filters raw bulb glow into warm room vibes.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <path d="M25 60 C 25 30, 75 30, 75 60 C 75 75, 25 75, 25 60 Z" fill="currentColor" opacity="0.05" />
-        <path d="M25 60 C 25 30, 75 30, 75 60 C 75 75, 25 75, 25 60 Z" strokeWidth="1.5" />
-        <line x1="50" y1="30" x2="50" y2="75" strokeWidth="0.75" />
-        <line x1="37" y1="35" x2="37" y2="72" strokeWidth="0.5" strokeDasharray="1 1" />
-        <line x1="63" y1="35" x2="63" y2="72" strokeWidth="0.5" strokeDasharray="1 1" />
-        <line x1="33" y1="75" x2="25" y2="88" strokeWidth="1.5" />
-        <line x1="67" y1="75" x2="75" y2="88" strokeWidth="1.5" />
-      </svg>
-    )
-  },
-  {
-    id: "p4",
-    name: "Vessel Travertine Table Lamp",
-    category: "lamps",
-    slug: "table",
-    price: "$320",
-    specs: "8\" W x 16\" H • Solid Travertine",
-    description: "A solid cylindrical base of honed Italian travertine stone, carrying a clean linen dome shade. Perfect for low sideboards and consoles.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <path d="M25 50 C 25 25, 75 25, 75 50 Z" fill="currentColor" opacity="0.05" />
-        <path d="M25 50 C 25 25, 75 25, 75 50 L 25 50" strokeWidth="1.5" />
-        <rect x="42" y="50" width="16" height="35" fill="currentColor" opacity="0.1" />
-        <rect x="42" y="50" width="16" height="35" strokeWidth="1.5" />
-        <line x1="42" y1="62" x2="58" y2="62" strokeWidth="0.5" />
-        <line x1="42" y1="74" x2="58" y2="74" strokeWidth="0.5" />
-      </svg>
-    )
-  },
-  {
-    id: "p5",
-    name: "Kora Ribbed Brass Dome Pendant",
-    category: "pendants",
-    slug: "pendant",
-    price: "$450",
-    specs: "18\" Diameter • Matte Charcoal Hanger",
-    description: "Hand-spun brass dome detailing a precision-ribbed golden interior. Focuses warm directional task light over dining boards or counter zones.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <line x1="50" y1="10" x2="50" y2="45" strokeWidth="1.5" />
-        <path d="M20 65 C 20 40, 80 40, 80 65 Z" fill="currentColor" opacity="0.05" />
-        <path d="M20 65 C 20 40, 80 40, 80 65 L 20 65" strokeWidth="1.5" />
-        <line x1="30" y1="65" x2="50" y2="45" strokeWidth="0.5" />
-        <line x1="40" y1="65" x2="50" y2="45" strokeWidth="0.5" />
-        <line x1="60" y1="65" x2="50" y2="45" strokeWidth="0.5" />
-        <line x1="70" y1="65" x2="50" y2="45" strokeWidth="0.5" />
-      </svg>
-    )
-  },
-  {
-    id: "p6",
-    name: "Aura Minimalist Flush Mount",
-    category: "flush",
-    slug: "flush",
-    price: "$195",
-    specs: "12\" W x 3\" H • Recessed Bronze Band",
-    description: "A sleek, low-profile ceiling disc designed to disappear. Solves illumination in compact entry corridors or low ceilings without glare.",
-    svgIcon: (
-      <svg className="w-full h-full text-stone-900/10 dark:text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-        <rect x="25" y="30" width="50" height="12" rx="2" fill="currentColor" opacity="0.05" />
-        <rect x="25" y="30" width="50" height="12" rx="2" strokeWidth="1.5" />
-        <rect x="30" y="42" width="40" height="4" rx="1" fill="currentColor" />
-        <path d="M30 46 L 15 70 L 85 70 L 70 46 Z" fill="currentColor" opacity="0.03" />
-      </svg>
-    )
-  }
-];
+import ProductSvg from "@/components/ProductSvg";
+import { PRODUCTS } from "@/lib/products";
 
 const FILTER_TAGS = [
   { id: "all", label: "Show All Curation" },
@@ -342,15 +213,21 @@ export default function Home() {
               >
                 <div className="flex flex-col gap-4">
                   {/* Decorative product frame */}
-                  <div className="w-full aspect-[4/3] rounded bg-stone-50 dark:bg-stone-900 border border-stone-150 dark:border-stone-850 flex items-center justify-center p-6 overflow-hidden relative">
-                    {product.svgIcon}
-                  </div>
+                  <a 
+                    href={`/products/${product.id}`}
+                    className="w-full aspect-[4/3] rounded bg-stone-50 dark:bg-stone-900 border border-stone-150 dark:border-stone-850 flex items-center justify-center p-6 overflow-hidden relative cursor-pointer block"
+                  >
+                    <ProductSvg path={product.svgPath} />
+                  </a>
                   
                   <div className="flex flex-col gap-1">
                     <span className="text-[9px] font-mono tracking-widest text-stone-400 uppercase">{product.specs}</span>
-                    <h3 className="font-serif text-xl font-bold text-stone-900 dark:text-stone-50 group-hover:text-amber-600 transition-colors">
+                    <a 
+                      href={`/products/${product.id}`}
+                      className="font-serif text-xl font-bold text-stone-900 dark:text-stone-50 group-hover:text-amber-600 hover:text-amber-600 transition-colors cursor-pointer"
+                    >
                       {product.name}
-                    </h3>
+                    </a>
                   </div>
                   <p className="text-stone-500 dark:text-stone-400 text-xs leading-relaxed font-sans">
                     {product.description}
@@ -359,9 +236,12 @@ export default function Home() {
                 
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-stone-150 dark:border-stone-850">
                   <span className="text-base font-bold font-serif text-stone-950 dark:text-stone-50">{product.price}</span>
-                  <AffiliateButton slug={product.slug} variant="outline" className="text-[9px] px-4 py-2">
+                  <a 
+                    href={`/products/${product.id}`}
+                    className="inline-flex items-center justify-center font-sans font-bold uppercase tracking-widest text-[9px] transition-all duration-300 border border-stone-300 hover:border-stone-900 text-stone-700 hover:text-stone-900 px-4 py-2 dark:border-stone-700 dark:text-stone-300 dark:hover:border-stone-400 dark:hover:text-stone-100 cursor-pointer"
+                  >
                     Review Fixture
-                  </AffiliateButton>
+                  </a>
                 </div>
               </div>
             ))}
